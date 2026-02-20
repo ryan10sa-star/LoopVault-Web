@@ -1,0 +1,10 @@
+{
+  "templateId": "loop_check_basic",
+  "jobType": "loop-check",
+  "name": "Loop Check Basic",
+  "steps": [
+    { "templateStepId": "LC-1", "title": "Visual Inspection", "inputType": "passfail" },
+    { "templateStepId": "LC-2", "title": "Continuity", "inputType": "passfail" },
+    { "templateStepId": "LC-3", "title": "Signal Verification", "inputType": "number", "unit": "mA" }
+  ]
+}

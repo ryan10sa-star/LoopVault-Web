@@ -1,0 +1,12 @@
+{
+  "templateId": "calibration_4_20mA_basic",
+  "jobType": "calibration",
+  "name": "Calibration 4-20mA Basic",
+  "steps": [
+    { "templateStepId": "CAL-4", "title": "4mA Check", "inputType": "number", "unit": "mA" },
+    { "templateStepId": "CAL-8", "title": "8mA Check", "inputType": "number", "unit": "mA" },
+    { "templateStepId": "CAL-12", "title": "12mA Check", "inputType": "number", "unit": "mA" },
+    { "templateStepId": "CAL-16", "title": "16mA Check", "inputType": "number", "unit": "mA" },
+    { "templateStepId": "CAL-20", "title": "20mA Check", "inputType": "number", "unit": "mA" }
+  ]
+}
