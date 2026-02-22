@@ -1,0 +1,16 @@
+tag_number,type,plant,instrument_role,safety_layer,voting_logic,control_system,sil_target,proof_test_interval,bypass_permit_required,functional_owner,description,area,unit,service,lrv,urv,eng_unit,transfer_function,fail_safe,max_error,test_equipment,test_equip_cal_date
+PT-101,PT,Plant-A,Control,SIS,2oo3,DCS,SIL2,12 months,Yes,Process Safety,Main Steam Header Pressure,Area 10,Unit 1,Steam Service,0,100,psi,4-20mA Linear,Upscale,0.1%,Fluke 754,2026-12-31
+PT-102,PT,Plant-A,Indicator,IPF,1oo1,DCS,SIL1,24 months,No,Operations,Aux Steam Pressure Local Indication,Area 10,Unit 1,Steam Service,0,150,psi,4-20mA Linear,Downscale,0.2%,Fluke 726,2027-01-15
+FT-202,FT,Plant-B,Indicator,IPF,1oo1,Computer Control,SIL1,24 months,No,Operations,Boiler Feedwater Flow,Area 20,Unit 2,Water Service,0,500,gpm,4-20mA Square Root,Downscale,0.2%,Beamex MC6,2027-06-30
+FQ-203,FQ,Plant-B,Control,SIS,2oo2,DCS,SIL2,12 months,Yes,Instrumentation,Fuel Gas Totalized Flow,Area 21,Unit 2,Fuel Gas Service,0,8000,scfh,4-20mA Square Root,Upscale,0.15%,Druck DPI 620 Genii,2026-10-10
+PDT-303,PDT,Plant-A,Alarm,PIS,1oo2,PLC,SIL1,12 months,Yes,Instrumentation,Differential Pressure Filter Monitoring,Area 14,Unit 1,Filtration Service,0,250,inH2O,4-20mA Square Root,Downscale,0.15%,Druck DPI 620 Genii,2027-03-15
+LT-505,LT,Plant-C,Shutdown,Shutdown,2oo2,SIS,SIL3,6 months,Yes,Process Safety,Surge Drum Level Safety Trip,Area 03,Unit 5,Level Protection,0,100,percent,4-20mA Linear,Upscale,0.1%,Additel ADT761A,2026-09-30
+LIT-506,LIT,Plant-C,Control,SIS,1oo2,DCS,SIL2,12 months,Yes,Instrumentation,Reflux Drum Level Control,Area 03,Unit 5,Level Control,0,120,percent,4-20mA Linear,Downscale,0.15%,Fluke 729 FC,2027-02-28
+TT-404,TT,Plant-C,Indicator,IPF,1oo1,DCS,SIL0,36 months,No,Operations,Reactor Jacket Temperature,Area 07,Unit 4,Temperature Monitoring,-50,250,degC,4-20mA Linear,Upscale,0.25%,Fluke 726,2026-11-20
+TIT-405,TIT,Plant-C,Control,SIS,1oo1,PLC,SIL1,24 months,No,Operations,Product Outlet Temperature Control,Area 08,Unit 4,Temperature Control,0,400,degF,4-20mA Linear,Downscale,0.2%,Yokogawa CA700,2027-04-18
+AIT-606,AIT,Plant-B,Control,SIS,2oo2,DCS,SIL2,12 months,Yes,Instrumentation,"Analyzer Shelter Oxygen Analyzer, Main Header",Area 22,Unit 6,Combustion Control,0,25,vol%,4-20mA Linear,Downscale,0.1%,Yokogawa CA700,2027-01-12
+PH-607,PH,Plant-B,Indicator,IPF,1oo1,DCS,SIL0,18 months,No,Operations,Boiler Condensate pH Monitoring,Area 23,Unit 6,Chemical Monitoring,0,14,pH,4-20mA Linear,Downscale,0.2%,Meriam MFC 5150,2026-12-10
+PSH-701,PSH,Plant-D,Alarm,SIS,1oo2,SIS,SIL2,12 months,Yes,Process Safety,Compressor Discharge High Pressure Switch,Area 31,Unit 8,Compressor Protection,0,350,psi,4-20mA Linear,Upscale,0.1%,Fluke 729,2026-08-22
+TSHH-702,TSHH,Plant-D,Shutdown,SIS,2oo3,SIS,SIL3,6 months,Yes,Process Safety,Furnace Coil High-High Temperature Shutdown,Area 32,Unit 8,Furnace Safety,0,1200,degF,4-20mA Linear,Upscale,0.1%,Additel ADT760,2026-07-30
+XV-801,XV,Plant-E,Control,IPF,1oo1,PLC,SIL0,24 months,No,Maintenance,"On/Off Solenoid Valve Position Feedback, Loading Bay",Area 41,Unit 9,Valve Position,0,100,percent,4-20mA Linear,Fail Last,0.3%,Fluke 725Ex,2027-05-05
+UV-901,UV,Plant-E,Indicator,PIS,1oo1,DCS,SIL0,24 months,No,Operations,Utility Air Header Pressure,Area 45,Unit 9,Utility Air,0,160,psi,4-20mA Linear,Downscale,0.2%,WIKA CPH6200,2027-03-01

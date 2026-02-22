@@ -1,0 +1,1 @@
+const e=5,o=5242880,a=10,n=31457280,s=314572800,t=new Set(["application/pdf","image/jpeg","image/png","image/webp","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]);export{t as A,a as M,o as a,n as b,s as c,e as d};

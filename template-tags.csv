@@ -1,0 +1,3 @@
+tag_number,type,plant,instrument_role,safety_layer,voting_logic,control_system,sil_target,proof_test_interval,bypass_permit_required,functional_owner,description,area,unit,service,lrv,urv,eng_unit,transfer_function,fail_safe,max_error,test_equipment,test_equip_cal_date
+LT-1001,LT,Plant-A,Indicator,PIS,1oo1,DCS,SIL1,24 months,No,Operations,Feed Flow Transmitter,A1,Unit-1,Flow,0,100,m3/h,Linear,Upscale,0.5%,Fluke 754,2027-06-30
+PT-2042,PT,Plant-B,Control,SIS,2oo3,Computer Control,SIL2,12 months,Yes,Instrumentation,Reactor Pressure Transmitter,B2,Unit-2,Pressure,0,300,psi,Square Root,Downscale,0.25%,Beamex MC6,2027-12-15
