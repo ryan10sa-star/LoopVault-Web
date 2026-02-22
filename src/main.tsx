@@ -8,6 +8,7 @@ import './styles.css';
 let hasMountedReactTree = false;
 const LAST_RUNTIME_ERROR_KEY = 'loopvault:lastRuntimeError';
 const CHUNK_RECOVERY_RELOAD_KEY = 'loopvault:chunkRecoveryReloaded';
+const SW_RECOVERY_ONCE_KEY = 'loopvault:swRecoveryRan.v1';
 
 function rememberRuntimeError(message: string): void {
   if (typeof window === 'undefined') {
@@ -105,6 +106,59 @@ window.addEventListener('unhandledrejection', (event) => {
   }
   renderBootError(String(reason));
 });
+
+function shouldRunServiceWorkerRecovery(): boolean {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+  if (window.location.hostname === 'localhost') {
+    return false;
+  }
+  if (!('serviceWorker' in navigator)) {
+    return false;
+  }
+  try {
+    return window.sessionStorage.getItem(SW_RECOVERY_ONCE_KEY) !== '1';
+  } catch {
+    return true;
+  }
+}
+
+function markServiceWorkerRecoveryRan(): void {
+  try {
+    window.sessionStorage.setItem(SW_RECOVERY_ONCE_KEY, '1');
+  } catch {
+    // ignore storage failures
+  }
+}
+
+async function runOneTimeServiceWorkerRecovery(): Promise<void> {
+  if (!shouldRunServiceWorkerRecovery()) {
+    return;
+  }
+
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    if (registrations.length === 0) {
+      markServiceWorkerRecoveryRan();
+      return;
+    }
+
+    markServiceWorkerRecoveryRan();
+    await Promise.all(registrations.map(async (registration) => await registration.unregister()));
+
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(async (key) => await caches.delete(key)));
+    }
+
+    window.location.reload();
+  } catch {
+    markServiceWorkerRecoveryRan();
+  }
+}
+
+void runOneTimeServiceWorkerRecovery();
 
 if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
   if ('serviceWorker' in navigator) {
