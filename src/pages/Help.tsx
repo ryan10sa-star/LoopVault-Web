@@ -8,6 +8,11 @@ export function Help(): JSX.Element {
   const [templateStatus, setTemplateStatus] = useState<string>('');
   const [activeReference, setActiveReference] = useState<'conversions' | 'formulas' | 'standards' | null>(null);
 
+  const assetUrl = (path: string): string => {
+    const normalizedBase = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+    return `${normalizedBase}${path.replace(/^\/+/, '')}`;
+  };
+
   useEffect(() => {
     const savedName = localStorage.getItem('loopvault.customHandoverTemplateName') ?? '';
     const savedContent = localStorage.getItem('loopvault.customHandoverTemplateContent') ?? '';
@@ -204,7 +209,7 @@ export function Help(): JSX.Element {
           </div>
         </div>
 
-        <a className="inline-flex min-h-[44px] items-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href="/template-tags.csv">
+        <a className="inline-flex min-h-[44px] items-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href={assetUrl('template-tags.csv')}>
           Download Template CSV
         </a>
       </article>
@@ -356,10 +361,10 @@ export function Help(): JSX.Element {
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2">
-          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href="/shift-handover-template.txt">
+          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href={assetUrl('shift-handover-template.txt')}>
             Download TXT Template
           </a>
-          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900" download href="/shift-handover-template.csv">
+          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900" download href={assetUrl('shift-handover-template.csv')}>
             Download CSV Template
           </a>
         </div>

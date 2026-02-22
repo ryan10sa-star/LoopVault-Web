@@ -13,6 +13,11 @@ export function Home(): JSX.Element {
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
   const [lastBackupAt, setLastBackupAt] = useState<string>('');
 
+  const assetUrl = (path: string): string => {
+    const normalizedBase = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+    return `${normalizedBase}${path.replace(/^\/+/, '')}`;
+  };
+
   const tags = useLiveQuery(async () => await db.tags.toArray(), [], []);
   const jobs = useLiveQuery(async () => await db.jobs.toArray(), [], []);
   const steps = useLiveQuery(async () => await db.steps.toArray(), [], []);
@@ -198,11 +203,11 @@ export function Home(): JSX.Element {
       </div>
 
       <div className="space-y-1 text-center">
-        <a className="text-sm text-safety underline" href="/sample-tags.csv">
+        <a className="text-sm text-safety underline" href={assetUrl('sample-tags.csv')}>
           Download sample tags CSV (basic)
         </a>
         <br />
-        <a className="text-sm text-safety underline" href="/sample-tags-advanced.csv">
+        <a className="text-sm text-safety underline" href={assetUrl('sample-tags-advanced.csv')}>
           Download sample tags CSV (advanced demo)
         </a>
       </div>
@@ -210,10 +215,10 @@ export function Home(): JSX.Element {
       <section className="lv-panel space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">Quick Import Sample Packs</p>
         <div className="grid gap-2 sm:grid-cols-2">
-          <button className="lv-btn-secondary" onClick={() => void onImportSamplePack('/sample-tags.csv', 'basic sample pack')} type="button">
+          <button className="lv-btn-secondary" onClick={() => void onImportSamplePack(assetUrl('sample-tags.csv'), 'basic sample pack')} type="button">
             Import Basic Sample
           </button>
-          <button className="lv-btn-secondary" onClick={() => void onImportSamplePack('/sample-tags-advanced.csv', 'advanced sample pack')} type="button">
+          <button className="lv-btn-secondary" onClick={() => void onImportSamplePack(assetUrl('sample-tags-advanced.csv'), 'advanced sample pack')} type="button">
             Import Advanced Sample
           </button>
         </div>
