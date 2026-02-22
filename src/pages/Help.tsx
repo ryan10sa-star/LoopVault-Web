@@ -105,6 +105,7 @@ export function Help(): JSX.Element {
           <li>DP flow jobs include a required confirmation point for square-root extraction location (transmitter, control board/system, legacy extractor, or N/A).</li>
           <li>Calibration metadata includes quick-select test equipment models, plus Other (custom make/model) and dedicated S/N entry.</li>
           <li>Settings screen supports site preference for test-equipment manufacturer so quick-select lists can prioritize local standards.</li>
+          <li>Built-in sample and template file downloads (tags and handover) with direct device-save behavior for field use.</li>
           <li>Per-tag document vault for loop sheets, P&amp;IDs, datasheets, and manuals with offline upload/download/delete controls.</li>
           <li>
             Document guardrails for mobile offline use: {Math.round(MAX_DOCUMENT_BYTES / (1024 * 1024))} MB per file, {MAX_DOCUMENTS_PER_TAG} files per tag,
@@ -113,6 +114,7 @@ export function Help(): JSX.Element {
           <li>Photo evidence capture from device camera/gallery and signature capture for turnover records.</li>
           <li>Dual export model: standard generated PDF packages and BYOF AcroForm fill workflows.</li>
           <li>ZIP backup and restore for full local data portability and recovery.</li>
+          <li>Resilient startup and deployment handling with one-time stale cache/chunk recovery to avoid loading lockups after updates.</li>
         </ul>
         <div className="mt-3 rounded-lg border border-slate-600 bg-slate-900 p-3 text-xs text-slate-300">
           <p className="font-semibold text-slate-100">Storage Footprint (Phone/Tablet)</p>
