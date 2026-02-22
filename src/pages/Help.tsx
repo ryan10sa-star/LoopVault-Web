@@ -13,6 +13,22 @@ export function Help(): JSX.Element {
     return `${normalizedBase}${path.replace(/^\/+/, '')}`;
   };
 
+  const downloadAsset = async (path: string, filename: string): Promise<void> => {
+    const response = await fetch(assetUrl(path));
+    if (!response.ok) {
+      throw new Error('Download failed.');
+    }
+    const fileBlob = await response.blob();
+    const objectUrl = URL.createObjectURL(fileBlob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = filename;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
+  };
+
   useEffect(() => {
     const savedName = localStorage.getItem('loopvault.customHandoverTemplateName') ?? '';
     const savedContent = localStorage.getItem('loopvault.customHandoverTemplateContent') ?? '';
@@ -209,7 +225,15 @@ export function Help(): JSX.Element {
           </div>
         </div>
 
-        <a className="inline-flex min-h-[44px] items-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href={assetUrl('template-tags.csv')}>
+        <a
+          className="inline-flex min-h-[44px] items-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black"
+          download
+          href={assetUrl('template-tags.csv')}
+          onClick={(event) => {
+            event.preventDefault();
+            void downloadAsset('template-tags.csv', 'template-tags.csv');
+          }}
+        >
           Download Template CSV
         </a>
       </article>
@@ -361,10 +385,26 @@ export function Help(): JSX.Element {
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2">
-          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black" download href={assetUrl('shift-handover-template.txt')}>
+          <a
+            className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-safety px-4 py-3 text-sm font-bold text-black"
+            download
+            href={assetUrl('shift-handover-template.txt')}
+            onClick={(event) => {
+              event.preventDefault();
+              void downloadAsset('shift-handover-template.txt', 'shift-handover-template.txt');
+            }}
+          >
             Download TXT Template
           </a>
-          <a className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900" download href={assetUrl('shift-handover-template.csv')}>
+          <a
+            className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900"
+            download
+            href={assetUrl('shift-handover-template.csv')}
+            onClick={(event) => {
+              event.preventDefault();
+              void downloadAsset('shift-handover-template.csv', 'shift-handover-template.csv');
+            }}
+          >
             Download CSV Template
           </a>
         </div>

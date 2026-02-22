@@ -18,6 +18,22 @@ export function Home(): JSX.Element {
     return `${normalizedBase}${path.replace(/^\/+/, '')}`;
   };
 
+  const downloadAsset = async (path: string, filename: string): Promise<void> => {
+    const response = await fetch(assetUrl(path));
+    if (!response.ok) {
+      throw new Error('Download failed.');
+    }
+    const fileBlob = await response.blob();
+    const objectUrl = URL.createObjectURL(fileBlob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = filename;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
+  };
+
   const tags = useLiveQuery(async () => await db.tags.toArray(), [], []);
   const jobs = useLiveQuery(async () => await db.jobs.toArray(), [], []);
   const steps = useLiveQuery(async () => await db.steps.toArray(), [], []);
@@ -203,11 +219,25 @@ export function Home(): JSX.Element {
       </div>
 
       <div className="space-y-1 text-center">
-        <a className="text-sm text-safety underline" href={assetUrl('sample-tags.csv')}>
+        <a
+          className="text-sm text-safety underline"
+          href={assetUrl('sample-tags.csv')}
+          onClick={(event) => {
+            event.preventDefault();
+            void downloadAsset('sample-tags.csv', 'sample-tags.csv');
+          }}
+        >
           Download sample tags CSV (basic)
         </a>
         <br />
-        <a className="text-sm text-safety underline" href={assetUrl('sample-tags-advanced.csv')}>
+        <a
+          className="text-sm text-safety underline"
+          href={assetUrl('sample-tags-advanced.csv')}
+          onClick={(event) => {
+            event.preventDefault();
+            void downloadAsset('sample-tags-advanced.csv', 'sample-tags-advanced.csv');
+          }}
+        >
           Download sample tags CSV (advanced demo)
         </a>
       </div>
