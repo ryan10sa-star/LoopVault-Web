@@ -48,13 +48,21 @@ declare module 'react-dom/client' {
 }
 
 declare module 'react-router-dom' {
-  export function BrowserRouter(props: { children?: unknown }): JSX.Element;
+  export function BrowserRouter(props: { basename?: string; children?: unknown }): JSX.Element;
   export function Routes(props: { children?: unknown }): JSX.Element;
   export function Route(props: { path: string; element: JSX.Element }): JSX.Element;
   export function Link(props: { to: string; className?: string; children?: unknown; onClick?: () => void }): JSX.Element;
   export function useNavigate(): (to: string) => void;
   export function useParams(): Record<string, string | undefined>;
   export function useSearchParams(): [URLSearchParams, (next: Record<string, string>) => void];
+}
+
+interface ImportMetaEnv {
+  readonly BASE_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
 }
 
 declare module 'dexie-react-hooks' {

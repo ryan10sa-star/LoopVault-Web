@@ -7,6 +7,7 @@ import './styles.css';
 
 let hasMountedReactTree = false;
 const LAST_RUNTIME_ERROR_KEY = 'loopvault:lastRuntimeError';
+const CHUNK_RECOVERY_RELOAD_KEY = 'loopvault:chunkRecoveryReloaded';
 
 function rememberRuntimeError(message: string): void {
   if (typeof window === 'undefined') {
@@ -40,6 +41,42 @@ function renderBootError(message: string): void {
   `;
 }
 
+function isChunkLoadFailureMessage(message: string): boolean {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes('chunkloaderror') ||
+    normalized.includes('loading chunk') ||
+    normalized.includes('failed to fetch dynamically imported module') ||
+    normalized.includes('importing a module script failed') ||
+    normalized.includes('dynamically imported module')
+  );
+}
+
+function toErrorMessage(value: unknown): string {
+  if (value instanceof Error) {
+    return value.stack ?? value.message;
+  }
+  return String(value);
+}
+
+function tryRecoverChunkLoadFailure(rawError: unknown): boolean {
+  const message = toErrorMessage(rawError);
+  if (!isChunkLoadFailureMessage(message)) {
+    return false;
+  }
+
+  try {
+    if (window.sessionStorage.getItem(CHUNK_RECOVERY_RELOAD_KEY) === '1') {
+      return false;
+    }
+    window.sessionStorage.setItem(CHUNK_RECOVERY_RELOAD_KEY, '1');
+    window.location.reload();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function escapeHtml(input: string): string {
   return input
     .replaceAll('&', '&amp;')
@@ -50,11 +87,17 @@ function escapeHtml(input: string): string {
 }
 
 window.addEventListener('error', (event) => {
+  if (tryRecoverChunkLoadFailure(event.error ?? event.message)) {
+    return;
+  }
   const message = event.error instanceof Error ? event.error.stack ?? event.error.message : String(event.message ?? 'Unknown startup error');
   renderBootError(message);
 });
 
 window.addEventListener('unhandledrejection', (event) => {
+  if (tryRecoverChunkLoadFailure(event.reason)) {
+    return;
+  }
   const reason = event.reason;
   if (reason instanceof Error) {
     renderBootError(reason.stack ?? reason.message);
@@ -89,7 +132,7 @@ try {
   hasMountedReactTree = true;
   ReactDOM.createRoot(rootElement).render(
     <ErrorBoundary>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <App />
       </BrowserRouter>
     </ErrorBoundary>

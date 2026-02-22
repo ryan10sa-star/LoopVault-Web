@@ -19,6 +19,11 @@ This repository now contains a React + TypeScript + Vite scaffold for LoopVault 
 - `npm run typecheck`
 - `npm run deploy`
 
+## Base path for deployment
+- Default build base is `/`.
+- For GitHub Pages project sites, set `VITE_APP_BASE` (example: `/LoopVault-Web/`) when running `npm run build`.
+- CI and deploy workflows already set this automatically using the repository name.
+
 ## dist/ deployment process
 1. Build app output into `dist/` using Vite (in fully provisioned env):
    - `npm run build`

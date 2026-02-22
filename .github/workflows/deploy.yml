@@ -28,6 +28,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_APP_BASE: /${{ github.event.repository.name }}/
 
       - name: Configure Git identity
         run: |
