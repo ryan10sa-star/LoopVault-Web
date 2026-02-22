@@ -1,2 +1,7 @@
-PT-101,High Pressure Header,Area 10,Unit 1,Steam Service
-FT-202,Feedwater Flow,Area 20,Unit 2,Water Service
+tag_number,type,plant,instrument_role,safety_layer,voting_logic,control_system,sil_target,proof_test_interval,bypass_permit_required,functional_owner,description,area,unit,service,lrv,urv,eng_unit,transfer_function,fail_safe,max_error,test_equipment,test_equip_cal_date
+PT-101,PT,Plant-A,Control,SIS,2oo3,DCS,SIL2,12 months,Yes,Process Safety,High Pressure Header Transmitter,Area 10,Unit 1,Steam Service,0,100,psi,4-20mA Linear,Upscale,0.1%,Fluke 754,2026-12-31
+FT-202,FT,Plant-B,Indicator,IPF,1oo1,Computer Control,SIL1,24 months,No,Operations,Boiler Feedwater Flow,Area 20,Unit 2,Water Service,0,500,gpm,4-20mA Square Root,Downscale,0.2%,Beamex MC6,2027-06-30
+PDT-303,PDT,Plant-A,Alarm,PIS,1oo2,PLC,SIL1,12 months,Yes,Instrumentation,Differential Pressure Filter Monitoring,Area 14,Unit 1,Filtration Service,0,250,inH2O,4-20mA Square Root,Downscale,0.15%,Druck DPI 620 Genii,2027-03-15
+TT-404,TT,Plant-C,Indicator,IPF,1oo1,DCS,SIL0,36 months,No,Operations,Reactor Jacket Temperature,Area 07,Unit 4,Temperature Monitoring,-50,250,degC,4-20mA Linear,Upscale,0.25%,Fluke 726,2026-11-20
+LT-505,LT,Plant-C,Shutdown,Shutdown,2oo2,SIS,SIL3,6 months,Yes,Process Safety,Surge Drum Level Safety Trip,Area 03,Unit 5,Level Protection,0,100,percent,4-20mA Linear,Upscale,0.1%,Additel ADT761A,2026-09-30
+AIT-606,AIT,Plant-B,Control,SIS,2oo2,DCS,SIL2,12 months,Yes,Instrumentation,"Analyzer Shelter Oxygen Analyzer, Main Header",Area 22,Unit 6,Combustion Control,0,25,vol%,4-20mA Linear,Downscale,0.1%,Yokogawa CA700,2027-01-12

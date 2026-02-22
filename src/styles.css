@@ -7,3 +7,127 @@ body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background: #0f172a;
 }
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-slate-900 text-slate-100 antialiased;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .lv-shell {
+    @apply min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900 text-slate-100;
+  }
+
+  .lv-header {
+    @apply border-b border-slate-800/90 bg-slate-900/80 backdrop-blur;
+  }
+
+  .lv-panel {
+    @apply rounded-2xl border border-slate-700/90 bg-slate-800/85 p-4 shadow-lg shadow-slate-950/30 transition-shadow duration-150;
+  }
+
+  .lv-panel-light {
+    @apply rounded-2xl border border-slate-300 bg-slate-100 p-4 shadow-lg shadow-slate-950/15;
+  }
+
+  .lv-panel-quiet {
+    @apply rounded-xl border border-slate-700/70 bg-slate-900/70 p-3;
+  }
+
+  .lv-title {
+    @apply text-xl font-bold tracking-tight text-safety;
+  }
+
+  .lv-subtitle {
+    @apply text-sm text-slate-300;
+  }
+
+  .lv-kpi {
+    @apply rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-200 transition-colors duration-150;
+  }
+
+  .lv-btn-primary {
+    @apply inline-flex min-h-[46px] items-center justify-center rounded-xl bg-safety px-4 py-3 text-sm font-bold text-black transition duration-150 ease-out hover:-translate-y-px hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:translate-y-0;
+  }
+
+  .lv-btn-secondary {
+    @apply inline-flex min-h-[46px] items-center justify-center rounded-xl border border-slate-500 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 transition duration-150 ease-out hover:-translate-y-px hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:translate-y-0;
+  }
+
+  .lv-btn-danger {
+    @apply inline-flex min-h-[46px] items-center justify-center rounded-xl border border-red-400 bg-red-950/40 px-4 py-3 text-sm font-bold text-red-200 transition duration-150 ease-out hover:-translate-y-px hover:bg-red-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:translate-y-0;
+  }
+
+  .lv-input {
+    @apply min-h-[44px] w-full rounded-xl border border-slate-600 bg-slate-900 p-3 text-base text-white outline-none transition duration-150 ease-out focus:border-safety focus-visible:ring-2 focus-visible:ring-safety/60;
+  }
+
+  .lv-page {
+    @apply space-y-4;
+  }
+
+  .lv-interactive {
+    @apply transition duration-150 ease-out hover:-translate-y-px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lv-btn-primary,
+  .lv-btn-secondary,
+  .lv-btn-danger,
+  .lv-input,
+  .lv-interactive {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes lv-confetti-fall {
+  0% {
+    transform: translateY(-6px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(88px) rotate(300deg);
+    opacity: 0;
+  }
+}
+
+.lv-confetti-piece {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  animation-name: lv-confetti-fall;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lv-btn-primary,
+  .lv-btn-secondary,
+  .lv-btn-danger,
+  .lv-input,
+  .lv-panel,
+  .lv-kpi {
+    transition: none !important;
+    transform: none !important;
+  }
+}

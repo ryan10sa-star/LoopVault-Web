@@ -1,0 +1,21 @@
+LoopVault Shift Handover Form
+
+Unit/Area:
+Shift Window:
+Supervisor/Lead:
+
+Completed Tags/Jobs:
+
+Open Tags/Jobs (with status):
+
+Blocked Items / Permits / Access Issues:
+
+Evidence Gaps to Capture Next Shift:
+
+Calibration Exceptions / Out-of-Tolerance Findings:
+
+Export & Backup Status (PDF + ZIP):
+
+Priority Start List for Next Shift:
+
+Safety / Operational Notes:

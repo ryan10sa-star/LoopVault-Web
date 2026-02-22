@@ -2,7 +2,45 @@
   "templateId": "calibration_4_20mA_basic",
   "jobType": "calibration",
   "name": "Calibration 4-20mA Basic",
+  "configFields": [
+    {
+      "id": "calibrationContext",
+      "label": "Calibration Context",
+      "type": "select",
+      "options": [
+        "Maintenance / T-A (In Field)",
+        "New Construction (Field Mounted)",
+        "Right Out Of Box (Bench)",
+        "Commissioning (New Install)"
+      ]
+    },
+    {
+      "id": "calibrationDataMode",
+      "label": "Data Entry Mode",
+      "type": "select",
+      "options": [
+        "As Found + As Left",
+        "Single Pass"
+      ]
+    },
+    {
+      "id": "dpSquareRootLocation",
+      "label": "DP Flow Square-Root Extraction",
+      "type": "select",
+      "options": [
+        "Not Applicable",
+        "In Transmitter",
+        "In Control System (Board)",
+        "External Extractor (Legacy)"
+      ]
+    },
+    { "id": "testEquipment", "label": "Test Equipment (Make/Model/SN)", "type": "text" },
+    { "id": "testEquipmentCalDate", "label": "Test Equip Cal Due Date", "type": "date" }
+  ],
   "steps": [
+    { "templateStepId": "CAL-INSP-1", "title": "Inspection: Nameplate and Tag Verified", "inputType": "passfail" },
+    { "templateStepId": "CAL-INSP-2", "title": "Inspection: Installation and Impulse/Process Connections Verified", "inputType": "passfail" },
+    { "templateStepId": "CAL-INSP-3", "title": "Inspection: Wiring/Termination and Shielding Verified", "inputType": "passfail" },
     { "templateStepId": "CAL-4", "title": "4mA Check", "inputType": "number", "unit": "mA" },
     { "templateStepId": "CAL-8", "title": "8mA Check", "inputType": "number", "unit": "mA" },
     { "templateStepId": "CAL-12", "title": "12mA Check", "inputType": "number", "unit": "mA" },

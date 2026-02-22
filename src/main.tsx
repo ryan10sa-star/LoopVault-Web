@@ -2,17 +2,100 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import './styles.css';
+
+let hasMountedReactTree = false;
+const LAST_RUNTIME_ERROR_KEY = 'loopvault:lastRuntimeError';
+
+function rememberRuntimeError(message: string): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  try {
+    window.localStorage.setItem(LAST_RUNTIME_ERROR_KEY, message);
+  } catch {
+    // ignore storage failures
+  }
+}
+
+function renderBootError(message: string): void {
+  rememberRuntimeError(message);
+  if (hasMountedReactTree) {
+    console.error('Post-mount runtime error:', message);
+    return;
+  }
+  const root = document.getElementById('root');
+  if (!root) {
+    return;
+  }
+  root.innerHTML = `
+    <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;color:#f8fafc;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;">
+      <section style="max-width:700px;width:100%;border:1px solid #fbbf24;border-radius:12px;background:#1e293b;padding:16px;">
+        <h1 style="margin:0;font-size:20px;font-weight:700;color:#fbbf24;">Startup Error</h1>
+        <p style="margin:8px 0 0;font-size:14px;line-height:1.4;color:#e2e8f0;">${escapeHtml(message)}</p>
+        <p style="margin:12px 0 0;font-size:13px;line-height:1.4;color:#cbd5e1;">Use Reload and send this error text for a direct fix.</p>
+      </section>
+    </main>
+  `;
+}
+
+function escapeHtml(input: string): string {
+  return input
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+window.addEventListener('error', (event) => {
+  const message = event.error instanceof Error ? event.error.stack ?? event.error.message : String(event.message ?? 'Unknown startup error');
+  renderBootError(message);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason;
+  if (reason instanceof Error) {
+    renderBootError(reason.stack ?? reason.message);
+    return;
+  }
+  renderBootError(String(reason));
+});
+
+if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+  if ('serviceWorker' in navigator) {
+    void navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        void registration.unregister();
+      });
+    });
+  }
+  if ('caches' in window) {
+    void caches.keys().then((keys) => {
+      keys.forEach((key) => {
+        void caches.delete(key);
+      });
+    });
+  }
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('Root element not found.');
 }
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+try {
+  hasMountedReactTree = true;
+  ReactDOM.createRoot(rootElement).render(
+    <ErrorBoundary>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ErrorBoundary>
+  );
+} catch (error) {
+  hasMountedReactTree = false;
+  const message = error instanceof Error ? error.stack ?? error.message : String(error);
+  renderBootError(message);
+}

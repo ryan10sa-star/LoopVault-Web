@@ -6,12 +6,32 @@ declare namespace JSX {
 }
 
 declare module 'react' {
+  export type ReactNode = any;
+  export interface ErrorInfo {
+    componentStack: string;
+  }
+  export class Component<P = unknown, S = unknown> {
+    constructor(props: P);
+    props: P;
+    state: S;
+    context: unknown;
+    refs: any;
+    setState(state: Partial<S>): void;
+    forceUpdate(): void;
+  }
   export interface StrictModeProps {
     children?: unknown;
   }
+  export interface SuspenseProps {
+    children?: unknown;
+    fallback?: unknown;
+  }
   export const StrictMode: (props: StrictModeProps) => JSX.Element;
+  export const Suspense: (props: SuspenseProps) => JSX.Element;
+  export function lazy<T>(factory: () => Promise<{ default: T }>): T;
   const ReactDefault: {
     StrictMode: typeof StrictMode;
+    Suspense: typeof Suspense;
   };
   export default ReactDefault;
   export function useEffect(effect: () => (() => void) | void, deps: unknown[]): void;
@@ -31,7 +51,7 @@ declare module 'react-router-dom' {
   export function BrowserRouter(props: { children?: unknown }): JSX.Element;
   export function Routes(props: { children?: unknown }): JSX.Element;
   export function Route(props: { path: string; element: JSX.Element }): JSX.Element;
-  export function Link(props: { to: string; className?: string; children?: unknown }): JSX.Element;
+  export function Link(props: { to: string; className?: string; children?: unknown; onClick?: () => void }): JSX.Element;
   export function useNavigate(): (to: string) => void;
   export function useParams(): Record<string, string | undefined>;
   export function useSearchParams(): [URLSearchParams, (next: Record<string, string>) => void];
@@ -52,7 +72,18 @@ declare module 'qrcode.react' {
 }
 
 declare module 'react-signature-canvas' {
-  export default class SignatureCanvas {
+  import type { Component, ReactNode } from 'react';
+
+  export interface SignatureCanvasProps {
+    canvasProps?: {
+      className?: string;
+    };
+    penColor?: string;
+    ref?: unknown;
+  }
+
+  export default class SignatureCanvas extends Component<SignatureCanvasProps, any> {
+    render(): ReactNode;
     clear(): void;
     isEmpty(): boolean;
     getTrimmedCanvas(): HTMLCanvasElement;
@@ -131,6 +162,19 @@ declare module 'lucide-react' {
 }
 
 declare module 'dexie' {
+  export interface Transaction {
+    table(name: string): {
+      toCollection(): {
+        modify(mutator: (record: Record<string, unknown>) => void): Promise<void>;
+      };
+    };
+  }
+
+  export interface Version {
+    stores(schema: Record<string, string>): Version;
+    upgrade(callback: (tx: Transaction) => Promise<void> | void): Version;
+  }
+
   export interface Collection<TRecord> {
     toArray(): Promise<TRecord[]>;
   }
@@ -153,7 +197,7 @@ declare module 'dexie' {
 
   export default class Dexie {
     constructor(name: string);
-    version(versionNumber: number): { stores(schema: Record<string, string>): void };
+    version(versionNumber: number): Version;
     transaction(mode: string, ...args: unknown[]): Promise<void>;
   }
 }

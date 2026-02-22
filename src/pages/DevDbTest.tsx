@@ -23,16 +23,26 @@ export function DevDbTest(): JSX.Element {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    void refreshCounts();
+    let mounted = true;
+    void refreshCounts(mounted);
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const refreshCounts = async (): Promise<void> => {
+  const refreshCounts = async (mounted = true): Promise<void> => {
     try {
       const current = await getTableCounts();
+      if (!mounted) {
+        return;
+      }
       setCounts(current);
       setStatus('Counts loaded from IndexedDB.');
       setError('');
     } catch (loadError) {
+      if (!mounted) {
+        return;
+      }
       setError(loadError instanceof Error ? loadError.message : 'Failed to load counts.');
     }
   };

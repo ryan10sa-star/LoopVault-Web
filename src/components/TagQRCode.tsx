@@ -47,7 +47,7 @@ export function TagQRCode({ tagNumber }: TagQRCodeProps): JSX.Element {
         <QRCodeSVG bgColor="#ffffff" fgColor="#000000" id="tag-qr-svg" size={180} value={payload} />
       </div>
       <p className="mt-2 break-all text-xs text-slate-300">{payload}</p>
-      <button className="mt-3 min-h-12 w-full rounded-lg bg-safety px-3 py-2 font-bold text-black" onClick={onPrintLabel} type="button">
+      <button className="mt-3 min-h-[44px] w-full rounded-lg bg-safety px-4 py-3 font-bold text-black" onClick={onPrintLabel} type="button">
         Print Label
       </button>
     </div>
