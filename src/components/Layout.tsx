@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useOfflineStatus } from '../hooks/useOfflineStatus';
 import { loadSitePreferences, SITE_PREFERENCES_UPDATED_EVENT } from '../config/sitePreferences';
+import { useAuth } from '../contexts/AuthContext';
 
 const KONAMI_SEQUENCE = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
 const MAGIC_WORD = 'loopvault';
@@ -21,6 +22,7 @@ export function Layout({ children }: LayoutProps): JSX.Element {
   const [navTrail, setNavTrail] = useState<string[]>([]);
   const [keyHistory, setKeyHistory] = useState<string[]>([]);
   const [typedHistory, setTypedHistory] = useState<string>('');
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const syncCelebrationMode = (): void => {
@@ -134,7 +136,7 @@ export function Layout({ children }: LayoutProps): JSX.Element {
       <header className="lv-header p-4">
         <div className={`mx-auto max-w-md ${isHomeRoute ? 'text-center' : 'flex items-center justify-between gap-2'}`}>
           <h1 className={headerTitleClassName} onClick={() => setTitleTapCount((current) => current + 1)}>
-            LoopVault Web
+            LoopVault
           </h1>
           {!isHomeRoute ? (
             <nav className="flex flex-wrap justify-end gap-2">
@@ -159,6 +161,18 @@ export function Layout({ children }: LayoutProps): JSX.Element {
             </nav>
           ) : null}
         </div>
+        {user ? (
+          <div className="mx-auto mt-2 flex max-w-md items-center justify-end gap-3">
+            <span className="truncate text-xs text-slate-400">{user.email}</span>
+            <button
+              className="text-xs text-slate-400 hover:text-red-400"
+              onClick={() => void signOut()}
+              type="button"
+            >
+              Sign out
+            </button>
+          </div>
+        ) : null}
       </header>
       {celebrationEnabled && eggToast ? (
         <div className="pointer-events-none fixed left-1/2 top-3 z-50 w-[92%] max-w-md -translate-x-1/2 rounded-xl border border-violet-300 bg-violet-900/95 px-3 py-2 text-center text-xs font-semibold text-violet-100 shadow-lg shadow-slate-950/60">
