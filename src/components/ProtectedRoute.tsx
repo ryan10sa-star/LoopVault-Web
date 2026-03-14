@@ -23,7 +23,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps): JSX.Element {
     return <Navigate replace to="/login" />;
   }
 
-  if (!BYPASS_SUBSCRIPTION && profile !== null && !profile.subscription_active) {
+  if (!BYPASS_SUBSCRIPTION && (!profile || !profile.subscription_active)) {
     return <Navigate replace to="/subscribe" />;
   }
 
