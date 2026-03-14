@@ -30,6 +30,7 @@ jobs:
         run: npm run build
         env:
           VITE_APP_BASE: /${{ github.event.repository.name }}/
+          VITE_BYPASS_SUBSCRIPTION: ${{ secrets.VITE_BYPASS_SUBSCRIPTION }}
 
       - name: Configure Git identity
         run: |
