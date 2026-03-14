@@ -31,6 +31,8 @@ jobs:
         env:
           VITE_APP_BASE: /${{ github.event.repository.name }}/
           VITE_BYPASS_SUBSCRIPTION: ${{ secrets.VITE_BYPASS_SUBSCRIPTION }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Configure Git identity
         run: |
