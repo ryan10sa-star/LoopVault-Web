@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { loadCloudSyncSettings, saveCloudSyncSettings, type CloudSyncSettings } from '../config/cloudSync';
 import { DEFAULT_INSPECTION_SUGGESTIONS, EQUIPMENT_MANUFACTURERS, loadSitePreferences, saveSitePreferences, type SitePreferences, type UserRole } from '../config/sitePreferences';
 import { pullCloudSnapshot, pushCloudSnapshot, testCloudConnection } from '../utils/cloudSync';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CloudSyncHistory {
   lastSuccessAt: string;
@@ -13,6 +14,7 @@ interface CloudSyncHistory {
 const CLOUD_SYNC_HISTORY_KEY = 'loopvault.cloudSync.lastSuccess.v1';
 
 export function Settings(): JSX.Element {
+  const { user, signOut } = useAuth();
   const [prefs, setPrefs] = useState<SitePreferences>({
     activeUserRole: 'tech',
     celebrationModeEnabled: true,
@@ -157,6 +159,22 @@ export function Settings(): JSX.Element {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold">Settings</h2>
       <p className="text-sm text-slate-300">Set site defaults and preferences for field workflow behavior.</p>
+
+      {user ? (
+        <article className="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800 p-4">
+          <div>
+            <p className="text-sm font-semibold text-slate-100">Signed in as</p>
+            <p className="text-xs text-slate-400">{user.email}</p>
+          </div>
+          <button
+            className="lv-btn-danger"
+            onClick={() => void signOut()}
+            type="button"
+          >
+            Sign out
+          </button>
+        </article>
+      ) : null}
 
       <article className="space-y-3 rounded-xl border border-slate-700 bg-slate-800 p-4">
         <h3 className="text-base font-semibold text-safety">Role & Access</h3>

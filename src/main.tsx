@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { AuthProvider } from './contexts/AuthContext';
 import './styles.css';
 
 let hasMountedReactTree = false;
@@ -187,7 +188,9 @@ try {
   ReactDOM.createRoot(rootElement).render(
     <ErrorBoundary>
       <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>
   );

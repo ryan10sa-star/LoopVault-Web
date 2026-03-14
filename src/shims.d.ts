@@ -7,6 +7,19 @@ declare namespace JSX {
 
 declare module 'react' {
   export type ReactNode = any;
+  export type FormEvent<T = Element> = {
+    preventDefault(): void;
+    currentTarget: T & EventTarget;
+    target: T & EventTarget;
+  };
+  export type ChangeEvent<T = Element> = {
+    currentTarget: T & EventTarget;
+    target: T & EventTarget;
+  };
+  export interface Context<T> {
+    Provider: (props: { value: T; children?: ReactNode }) => JSX.Element;
+    Consumer: (props: { children: (value: T) => ReactNode }) => JSX.Element;
+  }
   export interface ErrorInfo {
     componentStack: string;
   }
@@ -34,10 +47,13 @@ declare module 'react' {
     Suspense: typeof Suspense;
   };
   export default ReactDefault;
-  export function useEffect(effect: () => (() => void) | void, deps: unknown[]): void;
+  export function createContext<T>(defaultValue: T): Context<T>;
+  export function useCallback<T extends (...args: any[]) => any>(callback: T, deps: unknown[]): T;
+  export function useContext<T>(context: Context<T>): T;
+  export function useEffect(effect: () => (() => void) | void, deps?: unknown[]): void;
   export function useMemo<T>(factory: () => T, deps: unknown[]): T;
   export function useRef<T>(initial: T): { current: T };
-  export function useState<T>(initial: T): [T, (value: T | ((previous: T) => T)) => void];
+  export function useState<T>(initial: T | (() => T)): [T, (value: T | ((previous: T) => T)) => void];
 }
 
 declare module 'react-dom/client' {
@@ -50,15 +66,22 @@ declare module 'react-dom/client' {
 declare module 'react-router-dom' {
   export function BrowserRouter(props: { basename?: string; children?: unknown }): JSX.Element;
   export function Routes(props: { children?: unknown }): JSX.Element;
-  export function Route(props: { path: string; element: JSX.Element }): JSX.Element;
+  export function Route(props: { path?: string; element?: JSX.Element; index?: boolean; children?: unknown }): JSX.Element;
   export function Link(props: { to: string; className?: string; children?: unknown; onClick?: () => void }): JSX.Element;
-  export function useNavigate(): (to: string) => void;
+  export function Navigate(props: { to: string; replace?: boolean }): JSX.Element;
+  export function Outlet(): JSX.Element;
+  export function useNavigate(): (to: string, options?: { replace?: boolean }) => void;
   export function useParams(): Record<string, string | undefined>;
   export function useSearchParams(): [URLSearchParams, (next: Record<string, string>) => void];
 }
 
 interface ImportMetaEnv {
   readonly BASE_URL: string;
+  readonly VITE_SUPABASE_URL?: string;
+  readonly VITE_SUPABASE_ANON_KEY?: string;
+  readonly VITE_BYPASS_SUBSCRIPTION?: string;
+  readonly VITE_LEMONSQUEEZY_CHECKOUT_URL?: string;
+  readonly VITE_APP_BASE?: string;
 }
 
 interface ImportMeta {
