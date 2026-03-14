@@ -1,8 +1,8 @@
-// NOTE (Ryan): Replace the '#' checkout URL below with your real LemonSqueezy checkout link
-// once you have created the product in your LemonSqueezy dashboard.
+// NOTE (Ryan): Replace VITE_LEMONSQUEEZY_CHECKOUT_URL in your .env file with your real
+// LemonSqueezy checkout link once you have created the product in your dashboard.
 import { useAuth } from '../contexts/AuthContext';
 
-const LEMONSQUEEZY_CHECKOUT_URL = '#';
+const LEMONSQUEEZY_CHECKOUT_URL = import.meta.env.VITE_LEMONSQUEEZY_CHECKOUT_URL ?? '#';
 
 export function Subscribe(): JSX.Element {
   const { user, signOut } = useAuth();

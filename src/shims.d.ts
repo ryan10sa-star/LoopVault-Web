@@ -80,6 +80,7 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL?: string;
   readonly VITE_SUPABASE_ANON_KEY?: string;
   readonly VITE_BYPASS_SUBSCRIPTION?: string;
+  readonly VITE_LEMONSQUEEZY_CHECKOUT_URL?: string;
   readonly VITE_APP_BASE?: string;
 }
 
