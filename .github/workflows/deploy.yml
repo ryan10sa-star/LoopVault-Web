@@ -26,8 +26,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Clear Vite cache
+        run: rm -rf node_modules/.vite dist
+
       - name: Build
-        run: npm run build
+        run: npm run build -- --force
         env:
           VITE_APP_BASE: /${{ github.event.repository.name }}/
           VITE_BYPASS_SUBSCRIPTION: ${{ secrets.VITE_BYPASS_SUBSCRIPTION }}
