@@ -9,7 +9,6 @@ import './styles.css';
 let hasMountedReactTree = false;
 const LAST_RUNTIME_ERROR_KEY = 'loopvault:lastRuntimeError';
 const CHUNK_RECOVERY_RELOAD_KEY = 'loopvault:chunkRecoveryReloaded';
-const SW_RECOVERY_ONCE_KEY = 'loopvault:swRecoveryRan.v2';
 
 function rememberRuntimeError(message: string): void {
   if (typeof window === 'undefined') {
@@ -118,22 +117,10 @@ function shouldRunServiceWorkerRecovery(): boolean {
   if (!('serviceWorker' in navigator)) {
     return false;
   }
-  try {
-    return window.sessionStorage.getItem(SW_RECOVERY_ONCE_KEY) !== '1';
-  } catch {
-    return true;
-  }
+  return true;
 }
 
-function markServiceWorkerRecoveryRan(): void {
-  try {
-    window.sessionStorage.setItem(SW_RECOVERY_ONCE_KEY, '1');
-  } catch {
-    // ignore storage failures
-  }
-}
-
-async function runOneTimeServiceWorkerRecovery(): Promise<void> {
+async function runServiceWorkerRecovery(): Promise<void> {
   if (!shouldRunServiceWorkerRecovery()) {
     return;
   }
@@ -141,11 +128,9 @@ async function runOneTimeServiceWorkerRecovery(): Promise<void> {
   try {
     const registrations = await navigator.serviceWorker.getRegistrations();
     if (registrations.length === 0) {
-      markServiceWorkerRecoveryRan();
       return;
     }
 
-    markServiceWorkerRecoveryRan();
     await Promise.all(registrations.map(async (registration) => await registration.unregister()));
 
     if ('caches' in window) {
@@ -155,11 +140,11 @@ async function runOneTimeServiceWorkerRecovery(): Promise<void> {
 
     window.location.reload();
   } catch {
-    markServiceWorkerRecoveryRan();
+    // ignore recovery failures
   }
 }
 
-void runOneTimeServiceWorkerRecovery();
+void runServiceWorkerRecovery();
 
 if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
   if ('serviceWorker' in navigator) {
