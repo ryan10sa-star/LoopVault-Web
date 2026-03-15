@@ -55,7 +55,9 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
   useEffect(() => {
     let cancelled = false;
 
+    console.log('[LoopVault Auth] getSession() called');
     void supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
+      console.log('[LoopVault Auth] getSession() result:', existingSession ? 'session exists' : 'no session', existingSession ? { user_id: existingSession.user?.id, expires_at: existingSession.expires_at } : null);
       if (cancelled) {
         return;
       }
@@ -69,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         console.log('[AuthContext] user after getSession():', resolvedUser);
       }
       if (existingSession?.user) {
+        console.log('[LoopVault Auth] User found, loading profile for:', existingSession.user.id);
         void loadProfile(existingSession.user.id).finally(() => {
           if (!cancelled) {
             if (import.meta.env.DEV) {
@@ -81,11 +84,13 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         if (import.meta.env.DEV) {
           console.log('[AuthContext] loading changed to false (no session)');
         }
+        console.log('[LoopVault Auth] No user session — setting loading=false, will redirect to /login');
         setLoading(false);
       }
     });
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      console.log('[LoopVault Auth] onAuthStateChange:', _event, newSession ? 'session exists' : 'no session');
       if (cancelled) {
         return;
       }
