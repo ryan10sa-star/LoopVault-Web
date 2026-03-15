@@ -67,21 +67,21 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
       setSession(existingSession);
       const resolvedUser = existingSession?.user ?? null;
       setUser(resolvedUser);
-      if (import.meta.env.DEV) {
+      if (import.meta.env.MODE !== 'production') {
         console.log('[AuthContext] user after getSession():', resolvedUser);
       }
       if (existingSession?.user) {
         console.log('[LoopVault Auth] User found, loading profile for:', existingSession.user.id);
         void loadProfile(existingSession.user.id).finally(() => {
           if (!cancelled) {
-            if (import.meta.env.DEV) {
+            if (import.meta.env.MODE !== 'production') {
               console.log('[AuthContext] loading changed to false (after profile fetch)');
             }
             setLoading(false);
           }
         });
       } else {
-        if (import.meta.env.DEV) {
+        if (import.meta.env.MODE !== 'production') {
           console.log('[AuthContext] loading changed to false (no session)');
         }
         console.log('[LoopVault Auth] No user session — setting loading=false, will redirect to /login');
