@@ -9,7 +9,7 @@ import './styles.css';
 let hasMountedReactTree = false;
 const LAST_RUNTIME_ERROR_KEY = 'loopvault:lastRuntimeError';
 const CHUNK_RECOVERY_RELOAD_KEY = 'loopvault:chunkRecoveryReloaded';
-const SW_RECOVERY_ONCE_KEY = 'loopvault:swRecoveryRan.v1';
+const SW_RECOVERY_ONCE_KEY = 'loopvault:swRecoveryRan.v2';
 
 function rememberRuntimeError(message: string): void {
   if (typeof window === 'undefined') {
