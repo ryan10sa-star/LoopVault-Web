@@ -9,8 +9,21 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['icons/icon-192.svg', 'icons/icon-512.svg'],
+      workbox: {
+        navigateFallbackDenylist: [/^\/login$/, /^\/register$/, /^\/subscribe$/],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              networkTimeoutSeconds: 10,
+              cacheName: 'navigation-cache',
+            },
+          },
+        ],
+      },
       manifest: {
         name: 'LoopVault',
         short_name: 'LoopVault',
