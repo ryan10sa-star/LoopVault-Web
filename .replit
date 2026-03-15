@@ -1,0 +1,17 @@
+run = "npm run dev -- --host 0.0.0.0 --port 3000"
+
+[nix]
+channel = "stable-24_05"
+
+[env]
+VITE_SUPABASE_URL = "${VITE_SUPABASE_URL}"
+VITE_SUPABASE_ANON_KEY = "${VITE_SUPABASE_ANON_KEY}"
+VITE_BYPASS_SUBSCRIPTION = "false"
+
+[deployment]
+run = ["sh", "-c", "npm run build && npx serve dist -l 3000"]
+build = ["sh", "-c", "npm install && npm run build"]
+
+[[ports]]
+localPort = 3000
+externalPort = 80
