@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
       if (cancelled) {
         return;
       }
-      if (import.meta.env.MODE !== 'production') {
+      if (import.meta.env.DEV) {
         console.log('[AuthContext] getSession() result:', existingSession);
       }
       setSession(existingSession);
