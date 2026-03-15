@@ -10,26 +10,22 @@ This repository now contains a React + TypeScript + Vite scaffold for LoopVault 
 - Dexie DB bootstrap placeholder in `src/db`.
 - Scanner and PDF utility placeholders in `src/hooks` and `src/utils`.
 - PWA configuration in `vite.config.ts` + `public/manifest.json` and icons.
-- GitHub Pages deploy workflow in `.github/workflows/deploy.yml`.
+- Replit deployment configuration (`.replit` + `replit.nix`).
 
 ## Commands
 - `npm run dev`
 - `npm run lint`
 - `npm run build`
 - `npm run typecheck`
-- `npm run deploy`
 
-## Base path for deployment
-- Default build base is `/`.
-- For GitHub Pages project sites, set `VITE_APP_BASE` (example: `/LoopVault-Web/`) when running `npm run build`.
-- CI and deploy workflows already set this automatically using the repository name.
-
-## dist/ deployment process
-1. Build app output into `dist/` using Vite (in fully provisioned env):
-   - `npm run build`
-2. Publish `dist/` to GitHub Pages branch:
-   - `npm run deploy`
-3. The provided workflow automatically runs lint/build/deploy on push to `main`.
+## Replit deployment
+1. Import this repository into a new Replit project.
+2. Set the following Secrets in the Replit project:
+   - `VITE_SUPABASE_URL` — your Supabase project URL.
+   - `VITE_SUPABASE_ANON_KEY` — your Supabase anon/public key.
+   - `VITE_BYPASS_SUBSCRIPTION` — set to `false` (default).
+3. Click **Run** to start the dev server, or use the **Deploy** tab for production hosting.
+4. The app will be accessible at your Replit project URL.
 
 > Note: In this execution environment, npm registry access may be restricted, so installing dependencies can fail even though the scaffold files are in place.
 
