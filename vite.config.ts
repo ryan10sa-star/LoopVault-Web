@@ -10,6 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/icon-192.svg', 'icons/icon-512.svg'],
       workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
         navigateFallbackDenylist: [/\/login/, /\/register/, /\/subscribe/],
         runtimeCaching: [
           {
