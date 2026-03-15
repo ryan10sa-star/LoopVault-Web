@@ -42,6 +42,7 @@ async function fetchProfile(userId: string): Promise<UserProfile | null> {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }): JSX.Element {
+  console.log('[LoopVault] AuthProvider mounted - build timestamp:', '2026-03-15-A');
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
